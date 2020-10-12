@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jeu de la vie", "Jeu de la vie\Jeu de la vie.csproj", "{9627578F-63B2-4F4E-B458-CE04E80D9D64}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9627578F-63B2-4F4E-B458-CE04E80D9D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9627578F-63B2-4F4E-B458-CE04E80D9D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9627578F-63B2-4F4E-B458-CE04E80D9D64}.Debug|x64.ActiveCfg = Debug|x64
+		{9627578F-63B2-4F4E-B458-CE04E80D9D64}.Debug|x64.Build.0 = Debug|x64
+		{9627578F-63B2-4F4E-B458-CE04E80D9D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9627578F-63B2-4F4E-B458-CE04E80D9D64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9627578F-63B2-4F4E-B458-CE04E80D9D64}.Release|x64.ActiveCfg = Release|x64
+		{9627578F-63B2-4F4E-B458-CE04E80D9D64}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DFD074C2-51EC-4D80-B641-CF8D9D496BF1}
+	EndGlobalSection
+EndGlobal
