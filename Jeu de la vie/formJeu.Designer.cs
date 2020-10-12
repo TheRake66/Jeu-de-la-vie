@@ -48,6 +48,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.buttonGenerer = new System.Windows.Forms.Button();
             this.linkLabelGitHub = new System.Windows.Forms.LinkLabel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.checkBoxSortir = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbLignes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbColonnes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTailleCase)).BeginInit();
@@ -60,7 +62,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1084, 10);
+            this.panel1.Size = new System.Drawing.Size(1184, 10);
             this.panel1.TabIndex = 0;
             // 
             // buttonCreer
@@ -274,7 +276,7 @@
             this.linkLabelGitHub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelGitHub.AutoSize = true;
             this.linkLabelGitHub.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabelGitHub.Location = new System.Drawing.Point(975, 25);
+            this.linkLabelGitHub.Location = new System.Drawing.Point(1075, 25);
             this.linkLabelGitHub.Name = "linkLabelGitHub";
             this.linkLabelGitHub.Size = new System.Drawing.Size(95, 21);
             this.linkLabelGitHub.TabIndex = 17;
@@ -282,13 +284,35 @@
             this.linkLabelGitHub.Text = "Mon GitHub";
             this.linkLabelGitHub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelGitHub_LinkClicked);
             // 
+            // label6
+            // 
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label6.Location = new System.Drawing.Point(30, 720);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(150, 2);
+            this.label6.TabIndex = 18;
+            // 
+            // checkBoxSortir
+            // 
+            this.checkBoxSortir.Checked = true;
+            this.checkBoxSortir.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSortir.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxSortir.Location = new System.Drawing.Point(30, 735);
+            this.checkBoxSortir.Name = "checkBoxSortir";
+            this.checkBoxSortir.Size = new System.Drawing.Size(150, 62);
+            this.checkBoxSortir.TabIndex = 19;
+            this.checkBoxSortir.Text = "La sortie renvoie au coté opposé";
+            this.checkBoxSortir.UseVisualStyleBackColor = true;
+            // 
             // formJeu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1084, 711);
+            this.ClientSize = new System.Drawing.Size(1184, 811);
+            this.Controls.Add(this.checkBoxSortir);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.linkLabelGitHub);
             this.Controls.Add(this.buttonGenerer);
             this.Controls.Add(this.numericUpDownVitesse);
@@ -308,7 +332,7 @@
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "formJeu";
-            this.Text = "Jeu de la vie - Par BUSTOS Thibault (TheRake66) - Version 1.0";
+            this.Text = "Jeu de la vie - Par BUSTOS Thibault (TheRake66) - Version 1.1";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbLignes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbColonnes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTailleCase)).EndInit();
@@ -338,6 +362,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonGenerer;
         private System.Windows.Forms.LinkLabel linkLabelGitHub;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox checkBoxSortir;
     }
 }
 

@@ -55,7 +55,7 @@ def jeuDeLaVie(l, c):
     while True:
         T = nextGeneration(T)
         afficherT(T)
-        sleep(.01)
+        sleep(.001)
 
 
 

@@ -197,14 +197,31 @@ namespace Jeu_de_la_vie
                         int newLigne = laLigne + i;
                         int newColonne = laColonne + j;
 
-                        // Gère les sortie d'écran
-                        if (newLigne < 0)                                   { newLigne = this.lesCases.Length - 1; }
-                        else if (newLigne > this.lesCases.Length - 1)       { newLigne = 0; }
+                        if (this.checkBoxSortir.Checked)
+                        {
+                            // Gère les sortie d'écran
+                            if (newLigne < 0) { newLigne = this.lesCases.Length - 1; }
+                            else if (newLigne > this.lesCases.Length - 1) { newLigne = 0; }
 
-                        if (newColonne < 0)                                 { newColonne = this.lesCases[0].Length - 1; }
-                        else if (newColonne > this.lesCases[0].Length - 1)  { newColonne = 0; }
+                            if (newColonne < 0) { newColonne = this.lesCases[0].Length - 1; }
+                            else if (newColonne > this.lesCases[0].Length - 1) { newColonne = 0; }
 
-                        count += this.lesCases[newLigne][newColonne].BackColor == Color.Black ? 1 : 0;
+                            count += this.lesCases[newLigne][newColonne].BackColor == Color.Black ? 1 : 0;
+                        }
+                        else
+                        {
+                            // Bloque la sortie d'écran
+                            if (
+                                (newLigne >= 0 && newLigne < this.lesCases.Length)
+                                &&
+                                (newColonne >= 0 && newColonne < this.lesCases[0].Length)
+                                )
+                            {
+                                count += this.lesCases[newLigne][newColonne].BackColor == Color.Black ? 1 : 0;
+                            }
+                        }
+
+
                     }
                 }
                 return count - (this.lesCases[laLigne][laColonne].BackColor == Color.Black ? 1 : 0);
