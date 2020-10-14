@@ -55,7 +55,6 @@ namespace Jeu_de_la_vie
 
 
         // ====================================================================
-
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             // -------------------------------------
@@ -239,6 +238,23 @@ namespace Jeu_de_la_vie
         {
             // -------------------------------------
             redimenssioneCases();
+            // -------------------------------------
+        }
+        private void buttonInverser_Click(object sender, EventArgs e)
+        {
+            // -------------------------------------
+            if (this.lesCases != null)
+            {
+                for (int i = 0; i < this.nbLigns; i++)
+                {
+                    for (int j = 0; j < this.nbCols; j++)
+                    {
+                        this.lesCases[i, j] = !this.lesCases[i, j];
+                    }
+                }
+
+                dessinerCases();
+            }
             // -------------------------------------
         }
         private void buttonGenerer_Click(object sender, EventArgs e)

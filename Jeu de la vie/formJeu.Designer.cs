@@ -56,6 +56,8 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ouvrirUnFichierjdlvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sauvegarderDansUnFichierjdlvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonInverser = new System.Windows.Forms.Button();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbLignes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbColonnes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTailleCase)).BeginInit();
@@ -75,7 +77,7 @@
             // buttonCreer
             // 
             this.buttonCreer.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCreer.Location = new System.Drawing.Point(30, 280);
+            this.buttonCreer.Location = new System.Drawing.Point(30, 330);
             this.buttonCreer.Name = "buttonCreer";
             this.buttonCreer.Size = new System.Drawing.Size(150, 35);
             this.buttonCreer.TabIndex = 2;
@@ -98,13 +100,13 @@
             0,
             0});
             this.numericUpDownNbLignes.Minimum = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
             0});
             this.numericUpDownNbLignes.Name = "numericUpDownNbLignes";
             this.numericUpDownNbLignes.Size = new System.Drawing.Size(120, 29);
-            this.numericUpDownNbLignes.TabIndex = 3;
+            this.numericUpDownNbLignes.TabIndex = 1;
             this.numericUpDownNbLignes.Value = new decimal(new int[] {
             40,
             0,
@@ -142,7 +144,7 @@
             0,
             0});
             this.numericUpDownNbColonnes.Minimum = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
             0});
@@ -159,7 +161,7 @@
             // buttonDemarrer
             // 
             this.buttonDemarrer.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDemarrer.Location = new System.Drawing.Point(30, 505);
+            this.buttonDemarrer.Location = new System.Drawing.Point(30, 555);
             this.buttonDemarrer.Name = "buttonDemarrer";
             this.buttonDemarrer.Size = new System.Drawing.Size(150, 35);
             this.buttonDemarrer.TabIndex = 7;
@@ -170,7 +172,7 @@
             // label3
             // 
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label3.Location = new System.Drawing.Point(30, 397);
+            this.label3.Location = new System.Drawing.Point(30, 447);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(150, 2);
             this.label3.TabIndex = 8;
@@ -178,7 +180,7 @@
             // buttonPause
             // 
             this.buttonPause.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonPause.Location = new System.Drawing.Point(30, 555);
+            this.buttonPause.Location = new System.Drawing.Point(30, 605);
             this.buttonPause.Name = "buttonPause";
             this.buttonPause.Size = new System.Drawing.Size(150, 35);
             this.buttonPause.TabIndex = 9;
@@ -189,7 +191,7 @@
             // buttonReinit
             // 
             this.buttonReinit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonReinit.Location = new System.Drawing.Point(30, 605);
+            this.buttonReinit.Location = new System.Drawing.Point(30, 655);
             this.buttonReinit.Name = "buttonReinit";
             this.buttonReinit.Size = new System.Drawing.Size(150, 35);
             this.buttonReinit.TabIndex = 10;
@@ -229,7 +231,7 @@
             // buttonSuivant
             // 
             this.buttonSuivant.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSuivant.Location = new System.Drawing.Point(30, 655);
+            this.buttonSuivant.Location = new System.Drawing.Point(30, 705);
             this.buttonSuivant.Name = "buttonSuivant";
             this.buttonSuivant.Size = new System.Drawing.Size(150, 35);
             this.buttonSuivant.TabIndex = 13;
@@ -240,7 +242,7 @@
             // numericUpDownVitesse
             // 
             this.numericUpDownVitesse.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDownVitesse.Location = new System.Drawing.Point(30, 455);
+            this.numericUpDownVitesse.Location = new System.Drawing.Point(30, 505);
             this.numericUpDownVitesse.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -265,7 +267,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(30, 425);
+            this.label5.Location = new System.Drawing.Point(30, 475);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(59, 21);
             this.label5.TabIndex = 14;
@@ -274,7 +276,7 @@
             // buttonGenerer
             // 
             this.buttonGenerer.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonGenerer.Location = new System.Drawing.Point(30, 330);
+            this.buttonGenerer.Location = new System.Drawing.Point(30, 380);
             this.buttonGenerer.Name = "buttonGenerer";
             this.buttonGenerer.Size = new System.Drawing.Size(150, 35);
             this.buttonGenerer.TabIndex = 16;
@@ -298,7 +300,7 @@
             // label6
             // 
             this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label6.Location = new System.Drawing.Point(30, 720);
+            this.label6.Location = new System.Drawing.Point(30, 770);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(150, 2);
             this.label6.TabIndex = 18;
@@ -308,7 +310,7 @@
             this.checkBoxSortir.Checked = true;
             this.checkBoxSortir.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxSortir.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxSortir.Location = new System.Drawing.Point(30, 735);
+            this.checkBoxSortir.Location = new System.Drawing.Point(30, 785);
             this.checkBoxSortir.Name = "checkBoxSortir";
             this.checkBoxSortir.Size = new System.Drawing.Size(150, 62);
             this.checkBoxSortir.TabIndex = 19;
@@ -318,7 +320,7 @@
             // panelPlateau
             // 
             this.panelPlateau.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.panelPlateau.Location = new System.Drawing.Point(210, 80);
+            this.panelPlateau.Location = new System.Drawing.Point(210, 85);
             this.panelPlateau.Name = "panelPlateau";
             this.panelPlateau.Size = new System.Drawing.Size(940, 700);
             this.panelPlateau.TabIndex = 20;
@@ -342,6 +344,7 @@
             // 
             this.fichierToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
+            this.toolStripSeparator1,
             this.ouvrirUnFichierjdlvToolStripMenuItem,
             this.sauvegarderDansUnFichierjdlvToolStripMenuItem});
             this.fichierToolStripMenuItem.Name = "fichierToolStripMenuItem";
@@ -369,13 +372,30 @@
             this.sauvegarderDansUnFichierjdlvToolStripMenuItem.Text = "Sauvegarder dans un fichier .jdlv";
             this.sauvegarderDansUnFichierjdlvToolStripMenuItem.Click += new System.EventHandler(this.sauvegarderDansUnFichierjdlvToolStripMenuItem_Click);
             // 
+            // buttonInverser
+            // 
+            this.buttonInverser.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonInverser.Location = new System.Drawing.Point(30, 280);
+            this.buttonInverser.Name = "buttonInverser";
+            this.buttonInverser.Size = new System.Drawing.Size(150, 35);
+            this.buttonInverser.TabIndex = 22;
+            this.buttonInverser.Text = "Inverser";
+            this.buttonInverser.UseVisualStyleBackColor = true;
+            this.buttonInverser.Click += new System.EventHandler(this.buttonInverser_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(303, 6);
+            // 
             // formJeu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1184, 811);
+            this.ClientSize = new System.Drawing.Size(1184, 861);
+            this.Controls.Add(this.buttonInverser);
             this.Controls.Add(this.panelPlateau);
             this.Controls.Add(this.checkBoxSortir);
             this.Controls.Add(this.label6);
@@ -400,7 +420,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "formJeu";
-            this.Text = "Jeu de la vie - Par BUSTOS Thibault (TheRake66) - Version 3.2";
+            this.Text = "Jeu de la vie - Par BUSTOS Thibault (TheRake66) - Version 4.0";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbLignes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbColonnes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTailleCase)).EndInit();
@@ -440,6 +460,8 @@
         private System.Windows.Forms.ToolStripMenuItem ouvrirUnFichierjdlvToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sauvegarderDansUnFichierjdlvToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.Button buttonInverser;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
