@@ -337,17 +337,20 @@ namespace Jeu_de_la_vie
             int x = j * ratio + this.espacementCases;
             int y = i * ratio + this.espacementCases;
 
-            this.drawMode = !this.lesCases[i, j];
+            if (i >= 0 && i < this.nbLigns && j >= 0 && j < this.nbCols)
+            {
+                this.drawMode = !this.lesCases[i, j];
 
-            this.lesCases[i, j] = this.drawMode;
-            this.leGraph.FillRectangle(
-                this.drawMode ? this.brushVivante : this.brushMorte,
-                x, y,
-                this.tailleCase, this.tailleCase
-                );
+                this.lesCases[i, j] = this.drawMode;
+                this.leGraph.FillRectangle(
+                    this.drawMode ? this.brushVivante : this.brushMorte,
+                    x, y,
+                    this.tailleCase, this.tailleCase
+                    );
 
-            this.lastI = i;
-            this.lastJ = j;
+                this.lastI = i;
+                this.lastJ = j;
+            }
             // -------------------------------------
         }
         private void panelPlateau_MouseMove(object sender, MouseEventArgs e)
