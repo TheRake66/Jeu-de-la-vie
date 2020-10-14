@@ -90,7 +90,7 @@ namespace Jeu_de_la_vie
                         {
                             // Change l'oppacite de chaque pixel
                             Color c = pic.GetPixel(h, w);
-                            this.lesCases[i, j] = c.R + c.G + c.B < 384 ? false : true;
+                            this.lesCases[i, j] = c.R + c.G + c.B < 384 ? true : false;
                             j++;
                         }
                         j = 0;
@@ -99,7 +99,7 @@ namespace Jeu_de_la_vie
                 }
                 catch (Exception m)
                 {
-                    MessageBox.Show("Impossible d'ouvrir le plateau !\n" +
+                    MessageBox.Show("Impossible d'ouvrir l'image !\n" +
                         "Message : " + m.Message,
                         "Jeu de la vie",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
