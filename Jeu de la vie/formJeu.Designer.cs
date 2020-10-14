@@ -50,17 +50,24 @@
             this.linkLabelGitHub = new System.Windows.Forms.LinkLabel();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBoxSortir = new System.Windows.Forms.CheckBox();
+            this.panelPlateau = new System.Windows.Forms.Panel();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fichierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ouvrirUnFichierjdlvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sauvegarderDansUnFichierjdlvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbLignes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbColonnes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTailleCase)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVitesse)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Gold;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(0, 29);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1184, 10);
             this.panel1.TabIndex = 0;
@@ -78,6 +85,7 @@
             // 
             // timerDemarrer
             // 
+            this.timerDemarrer.Interval = 1;
             this.timerDemarrer.Tick += new System.EventHandler(this.timerDemarrer_Tick);
             // 
             // numericUpDownNbLignes
@@ -102,6 +110,7 @@
             0,
             0,
             0});
+            this.numericUpDownNbLignes.ValueChanged += new System.EventHandler(this.numericUpDownNbLignes_ValueChanged);
             // 
             // label1
             // 
@@ -145,6 +154,7 @@
             0,
             0,
             0});
+            this.numericUpDownNbColonnes.ValueChanged += new System.EventHandler(this.numericUpDownNbColonnes_ValueChanged);
             // 
             // buttonDemarrer
             // 
@@ -192,7 +202,7 @@
             this.numericUpDownTailleCase.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numericUpDownTailleCase.Location = new System.Drawing.Point(30, 230);
             this.numericUpDownTailleCase.Minimum = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
             0});
@@ -204,6 +214,7 @@
             0,
             0,
             0});
+            this.numericUpDownTailleCase.ValueChanged += new System.EventHandler(this.numericUpDownTailleCase_ValueChanged);
             // 
             // label4
             // 
@@ -244,7 +255,7 @@
             this.numericUpDownVitesse.Size = new System.Drawing.Size(120, 29);
             this.numericUpDownVitesse.TabIndex = 15;
             this.numericUpDownVitesse.Value = new decimal(new int[] {
-            100,
+            1,
             0,
             0,
             0});
@@ -276,7 +287,7 @@
             this.linkLabelGitHub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelGitHub.AutoSize = true;
             this.linkLabelGitHub.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabelGitHub.Location = new System.Drawing.Point(1075, 25);
+            this.linkLabelGitHub.Location = new System.Drawing.Point(1075, 50);
             this.linkLabelGitHub.Name = "linkLabelGitHub";
             this.linkLabelGitHub.Size = new System.Drawing.Size(95, 21);
             this.linkLabelGitHub.TabIndex = 17;
@@ -304,6 +315,60 @@
             this.checkBoxSortir.Text = "La sortie renvoie au coté opposé";
             this.checkBoxSortir.UseVisualStyleBackColor = true;
             // 
+            // panelPlateau
+            // 
+            this.panelPlateau.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.panelPlateau.Location = new System.Drawing.Point(210, 80);
+            this.panelPlateau.Name = "panelPlateau";
+            this.panelPlateau.Size = new System.Drawing.Size(940, 700);
+            this.panelPlateau.TabIndex = 20;
+            this.panelPlateau.Paint += new System.Windows.Forms.PaintEventHandler(this.panelPlateau_Paint);
+            this.panelPlateau.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelPlateau_MouseDown);
+            this.panelPlateau.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelPlateau_MouseMove);
+            this.panelPlateau.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelPlateau_MouseUp);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fichierToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1184, 29);
+            this.menuStrip1.TabIndex = 21;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fichierToolStripMenuItem
+            // 
+            this.fichierToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.ouvrirUnFichierjdlvToolStripMenuItem,
+            this.sauvegarderDansUnFichierjdlvToolStripMenuItem});
+            this.fichierToolStripMenuItem.Name = "fichierToolStripMenuItem";
+            this.fichierToolStripMenuItem.Size = new System.Drawing.Size(68, 25);
+            this.fichierToolStripMenuItem.Text = "Fichier";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(306, 26);
+            this.toolStripMenuItem1.Text = "Ouvrir une image";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // ouvrirUnFichierjdlvToolStripMenuItem
+            // 
+            this.ouvrirUnFichierjdlvToolStripMenuItem.Name = "ouvrirUnFichierjdlvToolStripMenuItem";
+            this.ouvrirUnFichierjdlvToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
+            this.ouvrirUnFichierjdlvToolStripMenuItem.Text = "Ouvrir un fichier .jdlv";
+            this.ouvrirUnFichierjdlvToolStripMenuItem.Click += new System.EventHandler(this.ouvrirUnFichierjdlvToolStripMenuItem_Click);
+            // 
+            // sauvegarderDansUnFichierjdlvToolStripMenuItem
+            // 
+            this.sauvegarderDansUnFichierjdlvToolStripMenuItem.Name = "sauvegarderDansUnFichierjdlvToolStripMenuItem";
+            this.sauvegarderDansUnFichierjdlvToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
+            this.sauvegarderDansUnFichierjdlvToolStripMenuItem.Text = "Sauvegarder dans un fichier .jdlv";
+            this.sauvegarderDansUnFichierjdlvToolStripMenuItem.Click += new System.EventHandler(this.sauvegarderDansUnFichierjdlvToolStripMenuItem_Click);
+            // 
             // formJeu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -311,6 +376,7 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1184, 811);
+            this.Controls.Add(this.panelPlateau);
             this.Controls.Add(this.checkBoxSortir);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.linkLabelGitHub);
@@ -330,13 +396,17 @@
             this.Controls.Add(this.numericUpDownNbLignes);
             this.Controls.Add(this.buttonCreer);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "formJeu";
-            this.Text = "Jeu de la vie - Par BUSTOS Thibault (TheRake66) - Version 1.1";
+            this.Text = "Jeu de la vie - Par BUSTOS Thibault (TheRake66) - Version 2.0";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbLignes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbColonnes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTailleCase)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVitesse)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -364,6 +434,12 @@
         private System.Windows.Forms.LinkLabel linkLabelGitHub;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox checkBoxSortir;
+        private System.Windows.Forms.Panel panelPlateau;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fichierToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ouvrirUnFichierjdlvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sauvegarderDansUnFichierjdlvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 

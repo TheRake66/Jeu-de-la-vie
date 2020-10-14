@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +15,23 @@ namespace Jeu_de_la_vie
     public partial class formJeu : Form
     {
         // -------------------------------------
-        Panel[][] lesCases;
-        int xOrigin = 250;
-        int yOrigin = 60;
+        bool[,] lesCases;
+        bool[,] lesCasesTemp;
+
+        int nbLigns;
+        int nbCols;
+        int tailleCase;
+        int espacementCases;
+
+        Random unAlea;
+        Graphics leGraph;
+        SolidBrush brushMorte;
+        SolidBrush brushVivante;
+
+        bool drawOn;
+        bool drawMode;
+        int lastI;
+        int lastJ;
         // -------------------------------------
 
 
@@ -26,6 +41,162 @@ namespace Jeu_de_la_vie
         {
             // -------------------------------------
             InitializeComponent();
+
+            this.espacementCases = 1;
+            this.unAlea = new Random();
+            this.brushMorte = new SolidBrush(SystemColors.WindowFrame);
+            this.brushVivante = new SolidBrush(Color.Yellow);
+
+            redimenssioneCases();
+            // -------------------------------------
+        }
+        // ====================================================================
+
+
+
+        // ====================================================================
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            // -------------------------------------
+            OpenFileDialog fileDlg = new OpenFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+
+                CheckFileExists = true,
+                CheckPathExists = true,
+
+                DefaultExt = "*.*",
+                Filter = "Tous les fichiers (*.*)|*.*",
+                FilterIndex = 2,
+                RestoreDirectory = true,
+            };
+
+
+            if (fileDlg.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    int i = 0;
+                    int j = 0;
+                    Bitmap pic = (Bitmap)Image.FromFile(fileDlg.FileName);
+
+                    this.numericUpDownNbLignes.Value = pic.Width;
+                    this.numericUpDownNbColonnes.Value = pic.Height;
+
+                    for (int w = 0; w < pic.Width; w++)
+                    {
+                        for (int h = 0; h < pic.Height; h++)
+                        {
+                            // Change l'oppacite de chaque pixel
+                            Color c = pic.GetPixel(h, w);
+                            this.lesCases[i, j] = c.R + c.G + c.B < 384 ? false : true;
+                            j++;
+                        }
+                        j = 0;
+                        i++;
+                    }
+                }
+                catch (Exception m)
+                {
+                    MessageBox.Show("Impossible d'ouvrir le plateau !\n" +
+                        "Message : " + m.Message,
+                        "Jeu de la vie",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                dessinerCases();
+            }
+            // -------------------------------------
+        }
+        private void ouvrirUnFichierjdlvToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // -------------------------------------
+            OpenFileDialog fileDlg = new OpenFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+
+                CheckFileExists = true,
+                CheckPathExists = true,
+
+                DefaultExt = "*.jdlv",
+                Filter = "Jeu de la vie (*.jdlv)|*.jdlv",
+                FilterIndex = 2,
+                RestoreDirectory = true,
+            };
+
+            if (fileDlg.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    string chaine = File.ReadAllText(fileDlg.FileName);
+
+                    int i = 0;
+                    int j = 0;
+                    foreach (string uneLigne in chaine.Split('\n'))
+                    {
+                        foreach (char uneCase in uneLigne)
+                        {
+                            if (i < this.nbLigns && j < this.nbCols)
+                            {
+                                this.lesCases[i, j] = uneCase == '1' ? true : false;
+                            }
+                            j++;
+                        }
+                        j = 0;
+                        i++;
+                    }
+                }
+                catch (Exception m)
+                {
+                    MessageBox.Show("Impossible d'ouvrir le plateau !\n" +
+                        "Message : " + m.Message,
+                        "Jeu de la vie",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                dessinerCases();
+            }
+            // -------------------------------------
+        }
+        private void sauvegarderDansUnFichierjdlvToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // -------------------------------------
+            SaveFileDialog fileDlg = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+
+                DefaultExt = "*.jdlv",
+                Filter = "Jeu de la vie (*.jdlv)|*.jdlv",
+                FilterIndex = 2,
+                RestoreDirectory = true,
+            };
+
+            if (fileDlg.ShowDialog() == DialogResult.OK)
+            {
+                string chaine = "";
+
+                for (int i = 0; i < this.nbLigns; i++)
+                {
+                    for (int j = 0; j < this.nbCols; j++)
+                    {
+                        chaine += this.lesCases[i, j] ? "1" : "0";
+                    }
+                    chaine += "\n";
+                }
+
+                try
+                {
+                    File.WriteAllText(fileDlg.FileName, chaine.Substring(0, chaine.Length - 1));
+                }
+                catch (Exception m)
+                {
+                    MessageBox.Show("Impossible de sauvegarder le plateau !\n" +
+                        "Message : " + m.Message,
+                        "Jeu de la vie",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
             // -------------------------------------
         }
         // ====================================================================
@@ -48,27 +219,46 @@ namespace Jeu_de_la_vie
 
 
         // ====================================================================
+        private void numericUpDownNbLignes_ValueChanged(object sender, EventArgs e)
+        {
+            // -------------------------------------
+            redimenssioneCases();
+            // -------------------------------------
+        }
+        private void numericUpDownNbColonnes_ValueChanged(object sender, EventArgs e)
+        {
+            // -------------------------------------
+            redimenssioneCases();
+            // -------------------------------------
+        }
+        private void numericUpDownTailleCase_ValueChanged(object sender, EventArgs e)
+        {
+            // -------------------------------------
+            redimenssioneCases();
+            // -------------------------------------
+        }
         private void buttonGenerer_Click(object sender, EventArgs e)
         {
             // -------------------------------------
             if (this.lesCases != null)
             {
                 // Aleatoire les cases
-                Random unAlea = new Random();
-                foreach (Panel[] uneLigne in this.lesCases)
+                for (int i = 0; i < this.nbLigns; i++)
                 {
-                    foreach (Panel uneCase in uneLigne)
+                    for (int j = 0; j < this.nbCols; j++)
                     {
-                        uneCase.BackColor = unAlea.Next(0, 2) == 0 ? Color.White : Color.Black;
+                        this.lesCases[i, j] = this.unAlea.Next(0, 2) == 1 ? true : false;
                     }
                 }
+
+                dessinerCases();
             }
             // -------------------------------------
         }
         private void buttonCreer_Click(object sender, EventArgs e)
         {
             // -------------------------------------
-            creerCase();
+            creerCases();
             // -------------------------------------
         }
         private void buttonDemarrer_Click(object sender, EventArgs e)
@@ -89,13 +279,15 @@ namespace Jeu_de_la_vie
             // Reset les cases
             if (this.lesCases != null)
             {
-                foreach (Panel[] uneLigne in this.lesCases)
+                for (int i = 0; i < this.nbLigns; i++)
                 {
-                    foreach (Panel uneCase in uneLigne)
+                    for (int j = 0; j < this.nbCols; j++)
                     {
-                        uneCase.BackColor = Color.White;
+                        this.lesCases[i, j] = false;
                     }
                 }
+
+                dessinerCases();
             }
             // -------------------------------------
         }
@@ -127,69 +319,125 @@ namespace Jeu_de_la_vie
 
 
         // ====================================================================
-        private void creerCase()
+        private void panelPlateau_Paint(object sender, PaintEventArgs e)
         {
             // -------------------------------------
-            // Efface les cases
-            if (this.lesCases != null)
+            dessinerCases();
+            // -------------------------------------
+        }
+        private void panelPlateau_MouseDown(object sender, MouseEventArgs e)
+        {
+            // -------------------------------------
+            this.drawOn = true;
+
+            int ratio = this.tailleCase + this.espacementCases;
+            int i = e.Y / ratio;
+            int j = e.X / ratio;
+
+            int x = j * ratio + this.espacementCases;
+            int y = i * ratio + this.espacementCases;
+
+            this.drawMode = !this.lesCases[i, j];
+
+            this.lesCases[i, j] = this.drawMode;
+            this.leGraph.FillRectangle(
+                this.drawMode ? this.brushVivante : this.brushMorte,
+                x, y,
+                this.tailleCase, this.tailleCase
+                );
+
+            this.lastI = i;
+            this.lastJ = j;
+            // -------------------------------------
+        }
+        private void panelPlateau_MouseMove(object sender, MouseEventArgs e)
+        {
+            // -------------------------------------
+            if (this.drawOn)
             {
-                foreach (Panel[] uneLigne in this.lesCases)
+                int ratio = this.tailleCase + this.espacementCases;
+                int i = e.Y / ratio;
+                int j = e.X / ratio;
+
+                if (
+                    (i != this.lastI || j != this.lastJ)
+                    &&
+                    (i >= 0 && i < this.nbLigns && j >= 0 && j < this.nbCols)
+                    )
                 {
-                    foreach (Panel uneCase in uneLigne)
-                    {
-                        uneCase.Dispose();
-                    }
-                }
-            }
+                    this.lastI = i;
+                    this.lastJ = j;
 
-            // Creer des variables pour retrecir le code
-            int nbLigns = (int)this.numericUpDownNbLignes.Value;
-            int nbCols = (int)this.numericUpDownNbColonnes.Value;
-            int tailleCase = (int)this.numericUpDownTailleCase.Value;
+                    int x = j * ratio + this.espacementCases;
+                    int y = i * ratio + this.espacementCases;
 
-            // Erreur de creation de handle de fenetre
-            if (nbLigns * nbCols >= 10000)
-            {
-                MessageBox.Show("Impossible de créer plus ou 10 000 cases !", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                // Creer les cases
-                this.lesCases = new Panel[nbLigns][];
-                for (int i = 0; i < nbLigns; i++)
-                {
-                    this.lesCases[i] = new Panel[nbCols];
-                    for (int j = 0; j < nbCols; j++)
-                    {
-                        Panel uneCase = new Panel();
-                        uneCase.BorderStyle = BorderStyle.FixedSingle;
-                        uneCase.BackColor = Color.White;
-                        uneCase.Size = new Size(tailleCase, tailleCase);
-                        uneCase.Location = new Point(xOrigin + j * tailleCase, yOrigin + i * tailleCase);
-                        uneCase.Click += new EventHandler((e, s) =>
-                        {
-                            uneCase.BackColor = uneCase.BackColor == Color.Black ? Color.White : Color.Black;
-                        });
-
-                        this.lesCases[i][j] = uneCase;
-                    }
-                }
-
-                // Ajoute les cases à la fenetre
-                foreach (Panel[] uneLigne in this.lesCases)
-                {
-                    this.Controls.AddRange(uneLigne);
+                    this.lesCases[i, j] = this.drawMode;
+                    this.leGraph.FillRectangle(
+                        this.drawMode ? this.brushVivante : this.brushMorte,
+                        x, y,
+                        this.tailleCase, this.tailleCase
+                        );
                 }
             }
             // -------------------------------------
         }
+        private void panelPlateau_MouseUp(object sender, MouseEventArgs e)
+        {
+            // -------------------------------------
+            this.drawOn = false;
+            this.lastI = 0;
+            this.lastJ = 0;
+            // -------------------------------------
+        }
+        // ====================================================================
 
+
+
+        // ====================================================================
+        private void redimenssioneCases()
+        {
+            // -------------------------------------
+            this.nbLigns = (int)this.numericUpDownNbLignes.Value;
+            this.nbCols = (int)this.numericUpDownNbColonnes.Value;
+            this.tailleCase = (int)this.numericUpDownTailleCase.Value;
+            creerCases();
+            // -------------------------------------
+        }
+        private void creerCases()
+        {
+            // -------------------------------------
+            // Creer les cases
+            this.lesCases = new bool[this.nbLigns, this.nbCols];
+            this.lesCasesTemp = new bool[this.nbLigns, this.nbCols];
+            for (int i = 0; i < this.nbLigns; i++)
+            {
+                for (int j = 0; j < this.nbCols; j++)
+                {
+                    this.lesCases[i, j] = false;
+                    this.lesCasesTemp[i, j] = false;
+                }
+            }
+
+            this.panelPlateau.Size = new Size(
+                this.nbCols * this.tailleCase + this.nbCols * this.espacementCases + this.espacementCases,
+                this.nbLigns * this.tailleCase + this.nbLigns * this.espacementCases + this.espacementCases
+                );
+
+            this.leGraph = this.panelPlateau.CreateGraphics();
+
+            dessinerCases();
+            // -------------------------------------
+        }
         private int nbVoisins(int laLigne, int laColonne)
         {
             // -------------------------------------
             if (this.lesCases != null)
             {
                 int count = 0;
+                /* [+][+][+]
+                 * [+][+][+]
+                 * [+][+][+]
+                 * */
                 for (int i = -1; i < 2; i++)
                 {
                     for (int j = -1; j < 2; j++)
@@ -200,31 +448,33 @@ namespace Jeu_de_la_vie
                         if (this.checkBoxSortir.Checked)
                         {
                             // Gère les sortie d'écran
-                            if (newLigne < 0) { newLigne = this.lesCases.Length - 1; }
-                            else if (newLigne > this.lesCases.Length - 1) { newLigne = 0; }
+                            if (newLigne < 0) { newLigne = this.nbLigns - 1; }
+                            else if (newLigne > this.nbLigns - 1) { newLigne = 0; }
 
-                            if (newColonne < 0) { newColonne = this.lesCases[0].Length - 1; }
-                            else if (newColonne > this.lesCases[0].Length - 1) { newColonne = 0; }
+                            if (newColonne < 0) { newColonne = this.nbCols - 1; }
+                            else if (newColonne > this.nbCols - 1) { newColonne = 0; }
 
-                            count += this.lesCases[newLigne][newColonne].BackColor == Color.Black ? 1 : 0;
+                            count += this.lesCases[newLigne, newColonne] ? 1 : 0;
                         }
                         else
                         {
                             // Bloque la sortie d'écran
                             if (
-                                (newLigne >= 0 && newLigne < this.lesCases.Length)
+                                (newLigne >= 0 && newLigne < this.nbLigns)
                                 &&
-                                (newColonne >= 0 && newColonne < this.lesCases[0].Length)
+                                (newColonne >= 0 && newColonne < this.nbCols)
                                 )
                             {
-                                count += this.lesCases[newLigne][newColonne].BackColor == Color.Black ? 1 : 0;
+                                count += this.lesCases[newLigne, newColonne] ? 1 : 0;
                             }
                         }
-
-
                     }
                 }
-                return count - (this.lesCases[laLigne][laColonne].BackColor == Color.Black ? 1 : 0);
+                /* [+][+][+]
+                 * [+][-][+]
+                 * [+][+][+]
+                 * */
+                return count - (this.lesCases[laLigne, laColonne] ? 1 : 0);
             }
             else
             {
@@ -232,44 +482,86 @@ namespace Jeu_de_la_vie
             }
             // -------------------------------------
         }
-
         private void nextGeneration()
         {
             // -------------------------------------
             if (this.lesCases != null)
             {
-                Color[][] newColor = new Color[this.lesCases.Length][];
-                for (int i = 0; i < this.lesCases.Length; i++)
-                {
-                    newColor[i] = new Color[this.lesCases[i].Length];
-                    for (int j = 0; j < this.lesCases[i].Length; j++)
-                    {
+                int x = this.espacementCases;
+                int y = this.espacementCases;
 
+                for (int i = 0; i < this.nbLigns; i++)
+                {
+                    for (int j = 0; j < this.nbCols; j++)
+                    {
                         int nb = nbVoisins(i, j);
 
                         if (nb < 2 || nb > 3)
                         {
-                            newColor[i][j] = Color.White;
+                            this.lesCasesTemp[i, j] = false; // Meurt
+                            this.leGraph.FillRectangle(
+                                this.brushMorte,
+                                x, y,
+                                this.tailleCase, this.tailleCase
+                                );
                         }
                         else if (nb == 2)
                         {
-                            newColor[i][j] = this.lesCases[i][j].BackColor;
+                            this.lesCasesTemp[i, j] = this.lesCases[i, j]; // Survie
                         }
                         else if (nb == 3)
                         {
-                            newColor[i][j] = Color.Black;
+                            this.lesCasesTemp[i, j] = true; // Nait
+                            this.leGraph.FillRectangle(
+                                this.brushVivante,
+                                x, y,
+                                this.tailleCase, this.tailleCase
+                                );
                         }
 
+                        x += this.tailleCase + this.espacementCases;
+                    }
+                    x = this.espacementCases;
+                    y += this.tailleCase + this.espacementCases;
+                }
+
+
+                for (int i = 0; i < this.nbLigns; i++)
+                {
+                    for (int j = 0; j < this.nbCols; j++)
+                    {
+                        this.lesCases[i, j] = this.lesCasesTemp[i, j];
                     }
                 }
 
-                for (int i = 0; i < this.lesCases.Length; i++)
+
+            }
+            // -------------------------------------
+        }
+        private void dessinerCases()
+        {
+            // -------------------------------------
+            if (this.lesCases != null)
+            {
+                int x = this.espacementCases;
+                int y = this.espacementCases;
+
+                for (int i = 0; i < this.nbLigns; i++)
                 {
-                    for (int j = 0; j < this.lesCases[i].Length; j++)
+                    for (int j = 0; j < this.nbCols; j++)
                     {
-                        this.lesCases[i][j].BackColor = newColor[i][j];
+                        this.leGraph.FillRectangle(
+                            this.lesCases[i, j] ? this.brushVivante : this.brushMorte,
+                            x, y,
+                            this.tailleCase, this.tailleCase
+                            );
+
+                        x += this.tailleCase + this.espacementCases;
                     }
+                    x = this.espacementCases;
+                    y += this.tailleCase + this.espacementCases;
                 }
+
             }
             // -------------------------------------
         }
