@@ -81,16 +81,20 @@ namespace Jeu_de_la_vie
                     int j = 0;
                     Bitmap pic = (Bitmap)Image.FromFile(fileDlg.FileName);
 
-                    this.numericUpDownNbLignes.Value = pic.Width;
-                    this.numericUpDownNbColonnes.Value = pic.Height;
+                    this.numericUpDownNbLignes.Value = pic.Height;
+                    this.numericUpDownNbColonnes.Value = pic.Width;
 
-                    for (int w = 0; w < pic.Width; w++)
+                    for (int h = 0; h < pic.Height; h++)
                     {
-                        for (int h = 0; h < pic.Height; h++)
+                        for (int w = 0; w < pic.Width; w++)
                         {
                             // Change l'oppacite de chaque pixel
-                            Color c = pic.GetPixel(h, w);
-                            this.lesCases[i, j] = c.R + c.G + c.B < 384 ? true : false;
+                            Color c = pic.GetPixel(w, h);
+
+                            if (i < this.nbLigns && j < this.nbCols)
+                            {
+                                this.lesCases[i, j] = c.R + c.G + c.B < 384 ? true : false;
+                            }
                             j++;
                         }
                         j = 0;

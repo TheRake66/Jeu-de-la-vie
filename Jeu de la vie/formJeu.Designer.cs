@@ -400,7 +400,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "formJeu";
-            this.Text = "Jeu de la vie - Par BUSTOS Thibault (TheRake66) - Version 3.1";
+            this.Text = "Jeu de la vie - Par BUSTOS Thibault (TheRake66) - Version 3.2";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbLignes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbColonnes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTailleCase)).EndInit();
