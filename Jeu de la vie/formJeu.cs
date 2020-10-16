@@ -42,7 +42,6 @@ namespace Jeu_de_la_vie
             // -------------------------------------
             InitializeComponent();
 
-            this.espacementCases = 1;
             this.unAlea = new Random();
             this.brushMorte = new SolidBrush(SystemColors.WindowFrame);
             this.brushVivante = new SolidBrush(Color.Yellow);
@@ -231,6 +230,12 @@ namespace Jeu_de_la_vie
             redimenssioneCases();
             // -------------------------------------
         }
+        private void numericUpDownEspacement_ValueChanged(object sender, EventArgs e)
+        {
+            // -------------------------------------
+            redimenssioneCases();
+            // -------------------------------------
+        }
         private void buttonInverser_Click(object sender, EventArgs e)
         {
             // -------------------------------------
@@ -405,6 +410,7 @@ namespace Jeu_de_la_vie
             this.nbLigns = (int)this.numericUpDownNbLignes.Value;
             this.nbCols = (int)this.numericUpDownNbColonnes.Value;
             this.tailleCase = (int)this.numericUpDownTailleCase.Value;
+            this.espacementCases = (int)this.numericUpDownEspacement.Value;
             creerCases();
             // -------------------------------------
         }
