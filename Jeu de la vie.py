@@ -40,7 +40,6 @@ def afficherT(T):
         for j in i:
             print("█", end="") if j ==1 else print(" ", end="")
         print()
-    print()
 
 
 

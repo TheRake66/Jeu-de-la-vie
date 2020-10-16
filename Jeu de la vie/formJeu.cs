@@ -46,7 +46,6 @@ namespace Jeu_de_la_vie
             this.unAlea = new Random();
             this.brushMorte = new SolidBrush(SystemColors.WindowFrame);
             this.brushVivante = new SolidBrush(Color.Yellow);
-
             redimenssioneCases();
             // -------------------------------------
         }
@@ -76,8 +75,6 @@ namespace Jeu_de_la_vie
             {
                 try
                 {
-                    int i = 0;
-                    int j = 0;
                     Bitmap pic = (Bitmap)Image.FromFile(fileDlg.FileName);
 
                     this.numericUpDownNbLignes.Value = pic.Height;
@@ -89,15 +86,8 @@ namespace Jeu_de_la_vie
                         {
                             // Change l'oppacite de chaque pixel
                             Color c = pic.GetPixel(w, h);
-
-                            if (i < this.nbLigns && j < this.nbCols)
-                            {
-                                this.lesCases[i, j] = c.R + c.G + c.B < 384 ? true : false;
-                            }
-                            j++;
+                            this.lesCases[h, w] = c.R + c.G + c.B < 384 ? true : false;
                         }
-                        j = 0;
-                        i++;
                     }
                 }
                 catch (Exception m)
@@ -136,6 +126,7 @@ namespace Jeu_de_la_vie
 
                     int i = 0;
                     int j = 0;
+
                     foreach (string uneLigne in chaine.Split('\n'))
                     {
                         foreach (char uneCase in uneLigne)
@@ -243,36 +234,30 @@ namespace Jeu_de_la_vie
         private void buttonInverser_Click(object sender, EventArgs e)
         {
             // -------------------------------------
-            if (this.lesCases != null)
+            for (int i = 0; i < this.nbLigns; i++)
             {
-                for (int i = 0; i < this.nbLigns; i++)
+                for (int j = 0; j < this.nbCols; j++)
                 {
-                    for (int j = 0; j < this.nbCols; j++)
-                    {
-                        this.lesCases[i, j] = !this.lesCases[i, j];
-                    }
+                    this.lesCases[i, j] = !this.lesCases[i, j];
                 }
-
-                dessinerCases();
             }
+
+            dessinerCases();
             // -------------------------------------
         }
         private void buttonGenerer_Click(object sender, EventArgs e)
         {
             // -------------------------------------
-            if (this.lesCases != null)
+            // Aleatoire les cases
+            for (int i = 0; i < this.nbLigns; i++)
             {
-                // Aleatoire les cases
-                for (int i = 0; i < this.nbLigns; i++)
+                for (int j = 0; j < this.nbCols; j++)
                 {
-                    for (int j = 0; j < this.nbCols; j++)
-                    {
-                        this.lesCases[i, j] = this.unAlea.Next(0, 2) == 1 ? true : false;
-                    }
+                    this.lesCases[i, j] = this.unAlea.Next(0, 2) == 1 ? true : false;
                 }
-
-                dessinerCases();
             }
+
+            dessinerCases();
             // -------------------------------------
         }
         private void buttonCreer_Click(object sender, EventArgs e)
@@ -297,18 +282,15 @@ namespace Jeu_de_la_vie
         {
             // -------------------------------------
             // Reset les cases
-            if (this.lesCases != null)
+            for (int i = 0; i < this.nbLigns; i++)
             {
-                for (int i = 0; i < this.nbLigns; i++)
+                for (int j = 0; j < this.nbCols; j++)
                 {
-                    for (int j = 0; j < this.nbCols; j++)
-                    {
-                        this.lesCases[i, j] = false;
-                    }
+                    this.lesCases[i, j] = false;
                 }
-
-                dessinerCases();
             }
+
+            dessinerCases();
             // -------------------------------------
         }
         private void buttonSuivant_Click(object sender, EventArgs e)
@@ -454,137 +436,121 @@ namespace Jeu_de_la_vie
         private int nbVoisins(int laLigne, int laColonne)
         {
             // -------------------------------------
-            if (this.lesCases != null)
+            int count = 0;
+            /* [+][+][+]
+                * [+][+][+]
+                * [+][+][+]
+                * */
+            for (int i = -1; i < 2; i++)
             {
-                int count = 0;
-                /* [+][+][+]
-                 * [+][+][+]
-                 * [+][+][+]
-                 * */
-                for (int i = -1; i < 2; i++)
+                for (int j = -1; j < 2; j++)
                 {
-                    for (int j = -1; j < 2; j++)
+                    int newLigne = laLigne + i;
+                    int newColonne = laColonne + j;
+
+                    if (this.checkBoxSortir.Checked)
                     {
-                        int newLigne = laLigne + i;
-                        int newColonne = laColonne + j;
+                        // Gère les sortie d'écran
+                        if (newLigne < 0) { newLigne = this.nbLigns - 1; }
+                        else if (newLigne > this.nbLigns - 1) { newLigne = 0; }
 
-                        if (this.checkBoxSortir.Checked)
+                        if (newColonne < 0) { newColonne = this.nbCols - 1; }
+                        else if (newColonne > this.nbCols - 1) { newColonne = 0; }
+
+                        count += this.lesCases[newLigne, newColonne] ? 1 : 0;
+                    }
+                    else
+                    {
+                        // Bloque la sortie d'écran
+                        if (
+                            (newLigne >= 0 && newLigne < this.nbLigns)
+                            &&
+                            (newColonne >= 0 && newColonne < this.nbCols)
+                            )
                         {
-                            // Gère les sortie d'écran
-                            if (newLigne < 0) { newLigne = this.nbLigns - 1; }
-                            else if (newLigne > this.nbLigns - 1) { newLigne = 0; }
-
-                            if (newColonne < 0) { newColonne = this.nbCols - 1; }
-                            else if (newColonne > this.nbCols - 1) { newColonne = 0; }
-
                             count += this.lesCases[newLigne, newColonne] ? 1 : 0;
-                        }
-                        else
-                        {
-                            // Bloque la sortie d'écran
-                            if (
-                                (newLigne >= 0 && newLigne < this.nbLigns)
-                                &&
-                                (newColonne >= 0 && newColonne < this.nbCols)
-                                )
-                            {
-                                count += this.lesCases[newLigne, newColonne] ? 1 : 0;
-                            }
                         }
                     }
                 }
-                /* [+][+][+]
-                 * [+][-][+]
-                 * [+][+][+]
-                 * */
-                return count - (this.lesCases[laLigne, laColonne] ? 1 : 0);
             }
-            else
-            {
-                return 0;
-            }
+            /* [+][+][+]
+                * [+][-][+]
+                * [+][+][+]
+                * */
+            return count - (this.lesCases[laLigne, laColonne] ? 1 : 0);
             // -------------------------------------
         }
         private void nextGeneration()
         {
             // -------------------------------------
-            if (this.lesCases != null)
+            int x = this.espacementCases;
+            int y = this.espacementCases;
+
+            for (int i = 0; i < this.nbLigns; i++)
             {
-                int x = this.espacementCases;
-                int y = this.espacementCases;
-
-                for (int i = 0; i < this.nbLigns; i++)
+                for (int j = 0; j < this.nbCols; j++)
                 {
-                    for (int j = 0; j < this.nbCols; j++)
+                    int nb = nbVoisins(i, j);
+
+                    if (nb < 2 || nb > 3)
                     {
-                        int nb = nbVoisins(i, j);
-
-                        if (nb < 2 || nb > 3)
-                        {
-                            this.lesCasesTemp[i, j] = false; // Meurt
-                            this.leGraph.FillRectangle(
-                                this.brushMorte,
-                                x, y,
-                                this.tailleCase, this.tailleCase
-                                );
-                        }
-                        else if (nb == 2)
-                        {
-                            this.lesCasesTemp[i, j] = this.lesCases[i, j]; // Survie
-                        }
-                        else if (nb == 3)
-                        {
-                            this.lesCasesTemp[i, j] = true; // Nait
-                            this.leGraph.FillRectangle(
-                                this.brushVivante,
-                                x, y,
-                                this.tailleCase, this.tailleCase
-                                );
-                        }
-
-                        x += this.tailleCase + this.espacementCases;
+                        this.lesCasesTemp[i, j] = false; // Meurt
+                        this.leGraph.FillRectangle(
+                            this.brushMorte,
+                            x, y,
+                            this.tailleCase, this.tailleCase
+                            );
                     }
-                    x = this.espacementCases;
-                    y += this.tailleCase + this.espacementCases;
+                    else if (nb == 2)
+                    {
+                        this.lesCasesTemp[i, j] = this.lesCases[i, j]; // Survie
+                    }
+                    else if (nb == 3)
+                    {
+                        this.lesCasesTemp[i, j] = true; // Nait
+                        this.leGraph.FillRectangle(
+                            this.brushVivante,
+                            x, y,
+                            this.tailleCase, this.tailleCase
+                            );
+                    }
+
+                    x += this.tailleCase + this.espacementCases;
                 }
+                x = this.espacementCases;
+                y += this.tailleCase + this.espacementCases;
+            }
 
 
-                for (int i = 0; i < this.nbLigns; i++)
+            for (int i = 0; i < this.nbLigns; i++)
+            {
+                for (int j = 0; j < this.nbCols; j++)
                 {
-                    for (int j = 0; j < this.nbCols; j++)
-                    {
-                        this.lesCases[i, j] = this.lesCasesTemp[i, j];
-                    }
+                    this.lesCases[i, j] = this.lesCasesTemp[i, j];
                 }
-
-
             }
             // -------------------------------------
         }
         private void dessinerCases()
         {
             // -------------------------------------
-            if (this.lesCases != null)
+            int x = this.espacementCases;
+            int y = this.espacementCases;
+
+            for (int i = 0; i < this.nbLigns; i++)
             {
-                int x = this.espacementCases;
-                int y = this.espacementCases;
-
-                for (int i = 0; i < this.nbLigns; i++)
+                for (int j = 0; j < this.nbCols; j++)
                 {
-                    for (int j = 0; j < this.nbCols; j++)
-                    {
-                        this.leGraph.FillRectangle(
-                            this.lesCases[i, j] ? this.brushVivante : this.brushMorte,
-                            x, y,
-                            this.tailleCase, this.tailleCase
-                            );
+                    this.leGraph.FillRectangle(
+                        this.lesCases[i, j] ? this.brushVivante : this.brushMorte,
+                        x, y,
+                        this.tailleCase, this.tailleCase
+                        );
 
-                        x += this.tailleCase + this.espacementCases;
-                    }
-                    x = this.espacementCases;
-                    y += this.tailleCase + this.espacementCases;
+                    x += this.tailleCase + this.espacementCases;
                 }
-
+                x = this.espacementCases;
+                y += this.tailleCase + this.espacementCases;
             }
             // -------------------------------------
         }

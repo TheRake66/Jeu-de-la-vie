@@ -54,10 +54,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fichierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ouvrirUnFichierjdlvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sauvegarderDansUnFichierjdlvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonInverser = new System.Windows.Forms.Button();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbLignes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbColonnes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTailleCase)).BeginInit();
@@ -358,6 +358,11 @@
             this.toolStripMenuItem1.Text = "Ouvrir une image";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(303, 6);
+            // 
             // ouvrirUnFichierjdlvToolStripMenuItem
             // 
             this.ouvrirUnFichierjdlvToolStripMenuItem.Name = "ouvrirUnFichierjdlvToolStripMenuItem";
@@ -382,11 +387,6 @@
             this.buttonInverser.Text = "Inverser";
             this.buttonInverser.UseVisualStyleBackColor = true;
             this.buttonInverser.Click += new System.EventHandler(this.buttonInverser_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(303, 6);
             // 
             // formJeu
             // 
@@ -420,7 +420,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "formJeu";
-            this.Text = "Jeu de la vie - Par BUSTOS Thibault (TheRake66) - Version 4.0";
+            this.Text = "Jeu de la vie - Par BUSTOS Thibault (TheRake66) - Version 4.1";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbLignes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNbColonnes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTailleCase)).EndInit();
