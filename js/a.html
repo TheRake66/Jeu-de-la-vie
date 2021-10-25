@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+	<head>
+		<meta charset="utf-8" />
+		<title>Jeu de la vie</title>
+		<link rel="icon" href="favicon.ico"/>
+	</head>
+
+    <body>
+
+        <div class="top"></div>
+
+        <aside>
+
+            <div class="panneau">
+                <h1>Délai</h1>
+                <div>
+                    <input type="range" min="0" max="10" value="0" id="time">
+                    <label for="time" id="ltime">0 millisecondes</label>
+                </div>
+            </div>
+            
+            <div class="panneau">
+                <h1>Dimension</h1>
+                <div>
+                    <input type="range" min="3" max="1000" value="100" id="cols">
+                    <label for="cols" id="lcols">100 colonnes</label>
+                </div>
+                <div>
+                    <input type="range" min="0" max="1000" value="50" id="ligs">
+                    <label for="ligs" id="lligs">50 lignes</label>
+                </div>
+            </div>
+            
+            <div class="panneau">
+                <h1>Taille</h1>
+                <div>
+                    <input type="range" min="1" max="100" value="15" id="size">
+                    <label for="size" id="lsize">15 pixels de large</label>
+                </div>
+                <div>
+                    <input type="range" min="0" max="10" value="1" id="space">
+                    <label for="space" id="lspace">1 pixels d'espace</label>
+                </div>
+            </div>
+            
+            <div class="panneau">
+                <button>Générer</button>
+                <button>Suivant</button>
+                <div class="sep"></div>
+                <button>Démarrer</button>
+                <button>Pause</button>
+                <button>Arrêter</button>
+            </div>
+
+        </aside>
+
+        <canvas></canvas>
+    </body>
+
+    <style>
+
+        body {
+            background-color: #99B4D1;
+            padding: 0;
+            margin: 0;
+        }
+
+        .top {
+            background-color: #FFD700;
+            width: 100%;
+            height: 10px;
+        }
+
+        aside {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .panneau {
+            background-color: #4F7CAE;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 5px rgb(77, 77, 77);
+
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        canvas {
+            background-color: #999999;
+            margin: 0;
+        }
+
+        button {
+            margin: auto;
+            margin-top: 5px;
+            margin-bottom: 5px;
+
+            border-radius: 10px;
+            box-shadow: 0px 3px 3px rgb(77, 77, 77);
+            border: 0;
+            background-color: #355475;
+            color: white;
+
+            width: 200px;
+            height: 30px;
+        }
+
+
+
+
+    </style>
+
+    <script>
+
+        // Recupere le canvas
+        var can = document.querySelector('canvas');
+        var ctx = can.getContext('2d');
+
+        // Variables modulaire
+        var tim = 0; // Timer en ms
+        var siz = 15; // Taille en px
+        var spc = 1; // Espace en px
+        var wid = 100; // Nb colonnes
+        var hei = 50; // Nb lignes
+        var mat = []; // Matrice 2D boolean
+
+
+
+
+        var time = document.getElementById("time");
+        var ltime = document.getElementById("ltime");
+        time.oninput = () => {
+            let newv = time.value * 10;
+            ltime.innerText = newv + " millisecondes";
+            tim = newv;
+        };
+        
+        var cols = document.getElementById("cols");
+        var lcols = document.getElementById("lcols");
+        cols.oninput = () => {
+            let newv = cols.value * 10;
+            lcols.innerText = newv + " colonnes";
+            wid = newv;
+        };
+
+
+
+
+
+
+
+
+
+        // Parcour la matrice et l'affiche
+        function afficher() {
+            for (let y = 0; y < hei; y++) {
+                for (let x = 0; x < wid; x++) {
+                    ctx.fillStyle = mat[y][x] ? '#FFFF00' : '#7E7E7E';
+                    ctx.fillRect(
+                        siz * x + spc * x, 
+                        siz * y + spc * y, 
+                        siz, siz);
+                }
+            }
+        }
+
+
+        // Creer la matrice avec une proba
+        function creer() {
+            
+            can.width = siz * wid + spc * wid;
+            can.height = siz * hei + spc * hei;
+
+            mat = new Array(hei);
+            for (let h = 0; h < hei; h++) {
+                mat[h] = new Array(wid);
+                for (let w = 0; w < wid; w++) {
+                    mat[h][w] = randomBool();
+                }
+            }
+        }
+
+
+        // Compte le nombres de voisin d'une case
+        function nbVoisins(posx, posy) {
+            let nb = 0;
+            for (let y = -1; y < 2; y++) {
+                for (let x = -1; x < 2; x++) {
+                    let newx = posx + x;
+                    let newy = posy + y;
+                    if (newy > 0 && newy < hei &&
+                        newx > 0 && newx < wid) {
+                        nb += boolToInt(mat[newy][newx]);
+                    }
+
+                }
+            }
+            /*
+            [+][+][+]
+            [+][-][+]
+            [+][+][+]
+            Soustrait le centre
+            */
+            return nb - boolToInt(mat[posy][posx]);
+        }
+
+
+        // Calcule la geneation suivante
+        function nextGeneration() {
+            let temp = new Array(hei);
+            for (let y = 0; y < hei; y++) {
+                temp[y] = new Array(wid);
+                for (let x = 0; x < wid; x++) {
+                    let nb = nbVoisins(x, y);       
+                    if (nb < 2 || nb > 3) temp[y][x] = 0; // Morte
+                    else if (nb == 2) temp[y][x] = mat[y][x] // Reste identique
+                    else if (nb == 3) temp[y][x] = 1; // Vivante
+                }
+            }
+            for (let y = 0; y < hei; y++) {
+                for (let x = 0; x < wid; x++) {
+                    mat[y][x] = temp[y][x]; // Copie la matrice temp dans l'originale
+                }
+            }
+        }
+
+
+        // Thread principal
+        async function jeuDeLaVie(w, h) {
+            creer();
+            while (true) {
+                nextGeneration();
+                afficher();
+                await sleep();
+            }
+        }
+
+
+        // Convertit un bool en int
+        function boolToInt(bl) {
+            return bl ? 1 : 0;
+        }
+
+
+        // Genere un bool au hasard
+        function randomBool(max) {
+            return Boolean(Math.floor(Math.random() * 2));
+        }
+
+
+        // Fonction sleep
+        function sleep() {
+            return new Promise(res => setTimeout(res, tim));
+        }
+
+
+        jeuDeLaVie(); // Lance le jeu
+
+    </script>
+        
+</html>

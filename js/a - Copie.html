@@ -1,0 +1,123 @@
+<canvas>
+    
+</canvas>
+
+<script>
+
+    // Recupere le canvas
+    var can = document.querySelector('canvas');
+    var ctx = can.getContext('2d');
+
+    // Variables modulaire
+    var tim = 0; // Timer en ms
+    var siz = 15; // Taille en px
+    var spc = 1; // Espace en px
+    var wid = 100; // Nb colonnes
+    var hei = 50; // Nb lignes
+    var mat = []; // Matrice 2D boolean
+
+
+    // Parcour la matrice et l'affiche
+    function afficher() {
+        for (let y = 0; y < hei; y++) {
+            for (let x = 0; x < wid; x++) {
+                ctx.fillStyle = mat[y][x] ? '#3E5665' : '#ACAAAE';
+                ctx.fillRect(
+                    siz * x + spc * x, 
+                    siz * y + spc * y, 
+                    siz, siz);
+            }
+        }
+    }
+
+
+    // Creer la matrice avec une proba
+    function creer() {
+        can.width = siz * wid + siz * spc;
+        can.height = siz * hei + siz * spc;
+        mat = new Array(hei);
+        for (let h = 0; h < hei; h++) {
+            mat[h] = new Array(wid);
+            for (let w = 0; w < wid; w++) {
+                mat[h][w] = randomBool();
+            }
+        }
+    }
+
+
+    // Compte le nombres de voisin d'une case
+    function nbVoisins(posx, posy) {
+        let nb = 0;
+        for (let y = -1; y < 2; y++) {
+            for (let x = -1; x < 2; x++) {
+                let newx = posx + x;
+                let newy = posy + y;
+                if (newy > 0 && newy < hei &&
+                    newx > 0 && newx < wid) {
+                    nb += boolToInt(mat[newy][newx]);
+                }
+
+            }
+        }
+        /*
+        [+][+][+]
+        [+][-][+]
+        [+][+][+]
+        Soustrait le centre
+        */
+        return nb - boolToInt(mat[posy][posx]);
+    }
+
+
+    // Calcule la geneation suivante
+    function nextGeneration() {
+        let temp = new Array(hei);
+        for (let y = 0; y < hei; y++) {
+            temp[y] = new Array(wid);
+            for (let x = 0; x < wid; x++) {
+                let nb = nbVoisins(x, y);       
+                if (nb < 2 || nb > 3) temp[y][x] = 0; // Morte
+                else if (nb == 2) temp[y][x] = mat[y][x] // Reste identique
+                else if (nb == 3) temp[y][x] = 1; // Vivante
+            }
+        }
+        for (let y = 0; y < hei; y++) {
+            for (let x = 0; x < wid; x++) {
+                mat[y][x] = temp[y][x]; // Copie la matrice temp dans l'originale
+            }
+        }
+    }
+
+
+    // Thread principal
+    async function jeuDeLaVie(w, h) {
+        creer();
+        while (true) {
+            nextGeneration();
+            afficher();
+            await sleep();
+        }
+    }
+
+
+    // Convertit un bool en int
+    function boolToInt(bl) {
+        return bl ? 1 : 0;
+    }
+
+
+    // Genere un bool au hasard
+    function randomBool(max) {
+        return Boolean(Math.floor(Math.random() * 2));
+    }
+
+
+    // Fonction sleep
+    function sleep() {
+        return new Promise(res => setTimeout(res, tim));
+    }
+
+
+    jeuDeLaVie(); // Lance le jeu
+
+</script>
