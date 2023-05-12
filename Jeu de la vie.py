@@ -6,7 +6,7 @@ from random import randint
 
 def init_matrix(rows_count, columns_count):
     return [ [ randint(0, 1)
-            for x in range(columns_count) ] 
+            for x in range(columns_count) ]
             for y in range(rows_count) ]
 
 
@@ -56,7 +56,7 @@ def clear_screen():
     else: system("clear")
 
 
-    
+
 def start_game(rows_count, columns_count):
     matrix = init_matrix(rows_count, columns_count)
     while True:
