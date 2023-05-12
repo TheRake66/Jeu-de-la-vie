@@ -52,8 +52,7 @@ def draw_matrix(matrix):
 
 
 def clear_screen():
-    if name == "nt": system("cls")
-    else: system("clear")
+    system("cls" if name == "nt" else "clear")
 
 
 
